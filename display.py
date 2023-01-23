@@ -2,12 +2,19 @@ from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 import json
 import re
-from settings import *
+from settings import DEBUGGING, INVERT_COLORS
 
 title_font = ImageFont.truetype('fonts/Swiss 911 Ultra Compressed Regular.otf', 80)
 body_font = ImageFont.truetype('fonts/Swiss 911 Ultra Compressed Regular.otf', 38)
 
-screen = Image.new('L', (480, 800), color='white')
+# Colors for flip-flopping
+BLACK = 'black'
+WHITE = 'white'
+if (INVERT_COLORS):
+	BLACK = 'white'
+	WHITE = 'black'
+
+screen = Image.new('L', (480, 800), color=WHITE)
 
 f = open('events.json')
 data = json.load(f)
@@ -67,19 +74,19 @@ y = margin + title_size[1] + margin
 body_line_size = body_font.getsize('The quick brown fox jumped over the lazy dog.')
 
 # Header
-d.text((xmargmax - title_size[0], margin), title, font=title_font)
-d.rectangle([(0,0),(80,y-1)], fill='black')
-d.rectangle([(20, y), (xmax, y+4)], fill='black')
-d.polygon([(0,y),(20,y+4),(20,y)], fill='black')
-d.chord([(xmin, y-10), (40,y+4)], 90, 180, fill='black')
+d.text((xmargmax - title_size[0], margin), title, font=title_font, fill=BLACK)
+d.rectangle([(0,0),(80,y-1)], fill=BLACK)
+d.rectangle([(20, y), (xmax, y+4)], fill=BLACK)
+d.polygon([(0,y),(20,y+4),(20,y)], fill=BLACK)
+d.chord([(xmin, y-10), (40,y+4)], 90, 180, fill=BLACK)
 
 y += 8;
 
 # Body
-d.chord([(xmin, y), (40,y+10)], 180, 270, fill='black')
-d.rectangle([(20, y), (xmax, y+4)], fill='black')
-d.polygon([(0,y+4),(20,y),(20,y+4)], fill='black')
-d.rectangle([(0,y+3),(80,ymax)], fill='black')
+d.chord([(xmin, y), (40,y+10)], 180, 270, fill=BLACK)
+d.rectangle([(20, y), (xmax, y+4)], fill=BLACK)
+d.polygon([(0,y+4),(20,y),(20,y+4)], fill=BLACK)
+d.rectangle([(0,y+3),(80,ymax)], fill=BLACK)
 
 y += margin + 4
 
@@ -98,12 +105,12 @@ for event in data['events']:
 	if (cur_date != date_string):
 		cur_date = date_string
 		date_size = body_font.getsize(date_string)
-		d.text((side_width - date_size[0] - 2, y), date_string, font=body_font, fill='white')
-		d.line([(0, y - 2), (side_width, y-2)], fill='white', width=2)
+		d.text((side_width - date_size[0] - 2, y), date_string, font=body_font, fill=WHITE)
+		d.line([(0, y - 2), (side_width, y-2)], fill=WHITE, width=2)
 		
-	d.text((xmargmax-time_size[0], y), time_string, font=body_font)
+	d.text((xmargmax-time_size[0], y), time_string, font=body_font, fill=BLACK)
 	for line in title_lines:
-		d.text((side_width + margin, y), line, font=body_font)
+		d.text((side_width + margin, y), line, font=body_font, fill=BLACK)
 		y += body_line_size[1] + line_margin
 	y += line_margin * 6
 	if (y > ymax):
