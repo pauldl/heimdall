@@ -1,0 +1,16 @@
+{
+	"events":[
+		{
+			"dtstart": "20230110T080000Z",
+			"dtend": "20230110T100000Z",
+			"title": "Sprint Planning",
+			"description": "Connecting with the team and prioritizing work for the week."
+		},
+		{
+			"dtstart": "20230110T150000Z",
+			"dtend": "20230110T160000Z",
+			"title": "One-on-one",
+			"description": "Chatting with my boss."
+		}
+	]
+}
