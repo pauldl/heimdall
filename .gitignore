@@ -1,2 +1,5 @@
 /.cache/**
 events.json
+/__pycache__/**
+info.log
+screen.bmp
