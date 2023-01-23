@@ -2,6 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 import json
 import re
+from settings import *
 
 title_font = ImageFont.truetype('fonts/Swiss 911 Ultra Compressed Regular.otf', 80)
 body_font = ImageFont.truetype('fonts/Swiss 911 Ultra Compressed Regular.otf', 38)
@@ -11,11 +12,11 @@ screen = Image.new('L', (480, 800), color='white')
 f = open('events.json')
 data = json.load(f)
 
-today = datetime.today();
+today = datetime.today()
 #title = today.strftime('%a, %b %d, %Y')
 title = "Captain's Schedule"
 
-title_size = title_font.getsize(title);
+title_size = title_font.getsize(title)
 
 # Screen Dimensions for calculating
 xmin = 0
@@ -108,4 +109,7 @@ for event in data['events']:
 	if (y > ymax):
 		break
 
-screen.show()
+if (DEBUGGING):
+	screen.show()
+
+screen.save("screen.bmp", "BMP")
