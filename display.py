@@ -14,7 +14,7 @@ if (INVERT_COLORS):
 	BLACK = 'white'
 	WHITE = 'black'
 
-screen = Image.new('L', (480, 800), color=WHITE)
+screen = Image.new('1', (480, 800), color=WHITE)
 
 f = open('events.json')
 data = json.load(f)
@@ -28,13 +28,13 @@ title_size = title_font.getsize(title)
 # Screen Dimensions for calculating
 xmin = 0
 ymin = 0
-ymax = 800
-xmax = 480
+ymax = 799
+xmax = 479
 
 # Desired screen edge margin, in px
 margin = 10
 line_margin = 3
-column_width = xmax / 12 # columns of 12 are helpful
+column_width = (xmax+1) / 12 # columns of 12 are helpful
 side_width = column_width * 2
 
 # Helper vars to add margins

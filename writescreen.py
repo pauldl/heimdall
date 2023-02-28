@@ -10,10 +10,12 @@ try:
     epd = epd7in5_V2.EPD()
     epd.init()
     epd.Clear()
+    time.sleep(2)
 
     Himage = Image.open('screen.bmp')
     epd.display(epd.getbuffer(Himage))
-    time.sleep(2)
+    epd.display(epd.getbuffer(Himage))
+    time.sleep(5)
 
     epd.sleep()
 
