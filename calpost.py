@@ -13,5 +13,6 @@ def post():
   except json.JSONDecodeError:
     return 'malformed'
 
-app.run(host='0.0.0.0', port=8090)
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port=8090, debug=True)
 
