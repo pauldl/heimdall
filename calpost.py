@@ -13,6 +13,10 @@ def post():
   except json.JSONDecodeError:
     return 'malformed'
 
+@app.route('/', methods = ['GET'])
+def get():
+  return "<html><body><h1>Heimdall guards the gate.</h1></body></html>"
+
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=8090, debug=True)
 
