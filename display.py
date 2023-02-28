@@ -4,8 +4,8 @@ import json
 import re
 from settings import DEBUGGING, INVERT_COLORS
 
-title_font = ImageFont.truetype('fonts/Swiss 911 Ultra Compressed Regular.otf', 80)
-body_font = ImageFont.truetype('fonts/Swiss 911 Ultra Compressed Regular.otf', 38)
+title_font = ImageFont.truetype('fonts/DidactGothic-Regular.ttf', 50)
+body_font = ImageFont.truetype('fonts/DidactGothic-Regular.ttf', 24)
 
 # Colors for flip-flopping
 BLACK = 'black'
@@ -33,7 +33,7 @@ xmax = 480
 
 # Desired screen edge margin, in px
 margin = 10
-line_margin = 4
+line_margin = 3
 column_width = xmax / 12 # columns of 12 are helpful
 side_width = column_width * 2
 
@@ -75,19 +75,11 @@ body_line_size = body_font.getsize('The quick brown fox jumped over the lazy dog
 
 # Header
 d.text((xmargmax - title_size[0], margin), title, font=title_font, fill=BLACK)
-d.rectangle([(0,0),(80,y-1)], fill=BLACK)
-d.rectangle([(20, y), (xmax, y+4)], fill=BLACK)
-d.polygon([(0,y),(20,y+4),(20,y)], fill=BLACK)
-d.chord([(xmin, y-10), (40,y+4)], 90, 180, fill=BLACK)
+d.rectangle([(xmin, y), (xmax, y+4)], fill=BLACK)
 
 y += 8;
 
 # Body
-d.chord([(xmin, y), (40,y+10)], 180, 270, fill=BLACK)
-d.rectangle([(20, y), (xmax, y+4)], fill=BLACK)
-d.polygon([(0,y+4),(20,y),(20,y+4)], fill=BLACK)
-d.rectangle([(0,y+3),(80,ymax)], fill=BLACK)
-
 y += margin + 4
 
 tf = (r"([+-][\d]{2}):([\d]{2})", r"\1\2", '%Y-%m-%dT%H:%M:%S%z')
@@ -105,8 +97,8 @@ for event in data['events']:
 	if (cur_date != date_string):
 		cur_date = date_string
 		date_size = body_font.getsize(date_string)
-		d.text((side_width - date_size[0] - 2, y), date_string, font=body_font, fill=WHITE)
-		d.line([(0, y - 2), (side_width, y-2)], fill=WHITE, width=2)
+		d.text((side_width - date_size[0] - 2, y), date_string, font=body_font, fill=BLACK)
+		d.line([(0, y - 2), (side_width, y-2)], fill=BLACK, width=2)
 		
 	d.text((xmargmax-time_size[0], y), time_string, font=body_font, fill=BLACK)
 	for line in title_lines:
