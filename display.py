@@ -87,6 +87,8 @@ tf = (r"([+-][\d]{2}):([\d]{2})", r"\1\2", '%Y-%m-%dT%H:%M:%S%z')
 cur_date = None
 
 for event in data['events']:
+	if re.match(r"^Canceled", event['title']):
+		continue
 	title_lines = wrap_text_for_font(event['title'], title_max_x - margin - side_width, body_font)
 	time_start = datetime.strptime(re.sub(tf[0], tf[1], event['dtstart']), tf[2])
 	time_end = datetime.strptime(re.sub(tf[0], tf[1], event['dtend']), tf[2])
