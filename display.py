@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import json
 import re
 import os
@@ -91,27 +91,39 @@ y += margin + 4
 tf = (r"([+-][\d]{2}):([\d]{2})", r"\1\2", '%Y-%m-%dT%H:%M:%S%z')
 
 cur_date = None
+now = datetime.now(timezone.utc)
+now_unset = True
 
 for event in data['events']:
 	if re.match(r"^Canceled", event['title']):
 		continue
 	title_lines = wrap_text_for_font(event['title'], title_max_x - margin - side_width, body_font)
 	time_start = datetime.strptime(re.sub(tf[0], tf[1], event['dtstart']), tf[2])
+	if DEBUGGING and now_unset:
+		now_unset = False
+		now = time_start + timedelta(minutes=5)
 	time_end = datetime.strptime(re.sub(tf[0], tf[1], event['dtend']), tf[2])
 	time_string = '%s - %s' % (time_start.strftime('%-I:%M'), time_end.strftime('%-I:%M%p'))
 	time_size = body_font.getsize(time_string)
+	
 	
 	date_string = time_start.strftime('%b %d')
 	if (cur_date != date_string):
 		cur_date = date_string
 		date_size = body_font.getsize(date_string)
 		d.text((side_width - date_size[0] - 2, y), date_string, font=body_font, fill=BLACK)
-		d.line([(0, y - 2), (side_width, y-2)], fill=BLACK, width=2)
+		d.line([(0, y - 2), (side_width - 4, y-2)], fill=BLACK, width=2)
 		
 	d.text((xmargmax-time_size[0], y), time_string, font=body_font, fill=BLACK)
+	line_y_start = y
 	for line in title_lines:
 		d.text((side_width + margin, y), line, font=body_font, fill=BLACK)
 		y += body_line_size[1] + line_margin
+	
+	if now >= time_start and now <= time_end:
+		d.line([(side_width, line_y_start + 4), (side_width, y - 4)], fill=BLACK, width=2) 
+		
+	
 	y += line_margin * 6
 	if (y > ymax):
 		break
