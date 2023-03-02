@@ -2,10 +2,14 @@ from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 import json
 import re
+import os
 from settings import DEBUGGING, INVERT_COLORS
 
-title_font = ImageFont.truetype('fonts/DidactGothic-Regular.ttf', 50)
-body_font = ImageFont.truetype('fonts/DidactGothic-Regular.ttf', 24)
+dirname = os.path.dirname(__file__)
+gothic_font_path = os.path.join(dirname, 'fonts/DidactGothic-Regular.ttf')
+
+title_font = ImageFont.truetype(gothic_font_path, 50)
+body_font = ImageFont.truetype(gothic_font_path, 24)
 
 # Colors for flip-flopping
 BLACK = 'black'
@@ -16,8 +20,10 @@ if (INVERT_COLORS):
 
 screen = Image.new('1', (480, 800), color=WHITE)
 
-f = open('events.json')
-data = json.load(f)
+events_json_path = os.path.join(dirname, 'events.json')
+
+with open(events_json_path, 'r') as f:
+	data = json.load(f)
 
 today = datetime.today()
 #title = today.strftime('%a, %b %d, %Y')
@@ -113,4 +119,4 @@ for event in data['events']:
 if (DEBUGGING):
 	screen.show()
 
-screen.save("screen.bmp", "BMP")
+screen.save(os.path.join(dirname, "screen.bmp"), "BMP")
